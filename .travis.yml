@@ -12,13 +12,13 @@ after_success:
  - docker build -t noneedrelax/multi-client ./client
  - docker build -t noneedrelax/multi-server ./server
  - docker build -t noneedrelax/multi-nginx ./nginx
- - docker build -t noneedrelax/multi-worker./worker
+ - docker build -t noneedrelax/multi-worker ./worker
  
  # Login to the docker CLI
  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
  
  # Push the stuff
- - docker push -t noneedrelax/multi-client ./client
- - docker push -t noneedrelax/multi-server ./server
- - docker push -t noneedrelax/multi-nginx ./nginx
- - docker push -t noneedrelax/multi-worker./worker
+ - docker push noneedrelax/multi-client
+ - docker push noneedrelax/multi-server
+ - docker push noneedrelax/multi-nginx 
+ - docker push noneedrelax/multi-worker
