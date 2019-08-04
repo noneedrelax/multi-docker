@@ -1,5 +1,3 @@
-export myNs=noneedrelax
-# Build the image first
 echo "name space is ${myNs}"
 docker build -t ${myNs}/multi-client ./client
 docker build -t ${myNs}/multi-server ./server
