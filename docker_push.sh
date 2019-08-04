@@ -1,5 +1,6 @@
 export myNs=noneedrelax
 # Build the image first
+echo "name space is ${myNs}"
 docker build -t ${myNs}/multi-client ./client
 docker build -t ${myNs}/multi-server ./server
 docker build -t ${myNs}/multi-nginx ./nginx
@@ -19,11 +20,10 @@ $(aws ecr get-login --no-include-email)
 
 # update latest version
 docker tag ${myNs}/multi-client:latest ${REGISTRY_ID}/multi-client:latest
-docker tag ${myNs}/multi-client:latest ${REGISTRY_ID}/multi-server:latest
-docker tag ${myNs}/multi-client:latest ${REGISTRY_ID}/multi-nginx:latest
-docker tag ${myNs}/multi-client:latest ${REGISTRY_ID}/multi-worker:latest
+docker tag ${myNs}/multi-server:latest ${REGISTRY_ID}/multi-server:latest
+docker tag ${myNs}/multi-nginx:latest ${REGISTRY_ID}/multi-nginx:latest
+docker tag ${myNs}/multi-worker:latest ${REGISTRY_ID}/multi-worker:latest
 docker push ${REGISTRY_ID}/multi-client:latest
 docker push ${REGISTRY_ID}/multi-server:latest
 docker push ${REGISTRY_ID}/multi-nginx:latest
 docker push ${REGISTRY_ID}/multi-worker:latest
-
