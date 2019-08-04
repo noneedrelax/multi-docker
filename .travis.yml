@@ -1,31 +1,29 @@
 sudo: required
 language: python
-services: 
- - docker
- 
+services:
+- docker
 before_install:
- - docker build -t noneedrelax/react-test -f ./client/Dockerfile.dev ./client
- - "./ecr_credentials.sh"
- - pip install awscli
- - export PATH=$PATH:$HOME/.local/bin
- 
+- docker build -t noneedrelax/react-test -f ./client/Dockerfile.dev ./client
+- "./ecr_credentials.sh"
+- pip install awscli
+- export PATH=$PATH:$HOME/.local/bin
 script:
- - docker run noneedrelax/react-test npm run test -- --coverage
- 
+- docker run noneedrelax/react-test npm run test -- --coverage
 after_success:
- # Push the stuff
- - ./docker_push.sh
- 
- 
-deploy: 
- provider: elasticbeanstalk
- region: us-west-2
- app: multi-docker
- env: MultiDocker-env
- bucket_name: elasticbeanstalk-us-west-2-563421743711
- bucket_path: docker-multi
- on:
-  branch: master
- access_key_id: $AWS_ACCESS_KEY
- secret_access_key:
-  secure: $AWS_SECRET_KEY
+- "./docker_push.sh"
+deploy:
+  provider: elasticbeanstalk
+  region: us-west-2
+  app: multi-docker
+  env: MultiDocker-env
+  bucket_name: elasticbeanstalk-us-west-2-563421743711
+  bucket_path: docker-multi
+  on:
+    branch: master
+  access_key_id: "${AWS_ACCESS_KEY_ID}"
+  secret_access_key:
+    secure: "${AWS_SECRET_ACCESS_KEY}"
+env:
+  global:
+  - secure: FSCGOLAWjRxmw7UCnMFNbfg/c/fbVeWuYpYSwQJz2XArDXZeFB8I1HQ+oWQO7qZSwqGq3PjkkYwZ/GYV9iG7YC4V6lnkQQtDheEm1dqxK6zdojNJTWd8igk7HVQ+GbVIKO0P54f2E8+b4dp9txIqbluN6LgxT1ylzQbMUKOmOKT+RqdrjasMcDwjGN588cfTVhZVbgIA3iEjPgG7yqeBBhMPl6gClXsybszWHIoF1/2vOyAamM5TTduC+dUaDlMes1I3e9YX73Nf1S7/0/EgoOLnCIzn+E/iLo8UcRarCluBAlmmBldR+nn2a9OsckkEBVBLW/+gNBvQeUdbVymjmt3mjZiPl5G4dSM6BcU9DZIMla7NQSlQ6F98hJtohCi3+pjnlZdC/RNT8eH774oBGNfVtUTXR16I1iB3WGAwi8cZUHCUIDrTUNZgNejtx2Fezt/p8SgiASmoio/r7iADJFoLVTn508053aA16PoQiT7RLdsz9635Wye6TPQ2cf4Ktcc/zZZAj0p9mrfMyMBXXqIrYLNsKSa8gzR9DXr9SC83L5HbDpieGfNE9SiekIer3obwJ0FdiPwthU7nMRYqjBBBGF9pva7qNLZxPrMVhlWw8ETE2AfLAZF4uxZwwQTfZUM5EhqoM+XC930e6LVvH3t1CO/NdmfptOACmLopPaY=
+  - secure: Nk6aRrUyTbvgGHeR3HaZH9j24vrteubXVvtToVAHpiEnv3yZiCp/75CGuhhYxJ7ETB1Ooh7v6Za8dRqFazieLcBYdoL6n3IQCK1EssBDRTY73Wg2OXusipAkY8fcNmGDhtfD8R93l5umJe6se/VKwO6OQJAsPkPDabKIht8NniMEygSmCDpu8bSHP36nTgmRXhZs68MiNUaTPaCo5l65QOQ0T4WUhVnJclmZhskKgGJpwqHOwc4LqEmQ01BKKOQsv/UOactp6bEqU7a4R3P81WYhk3w+PqbrCmyWY6Lq/1d4TqItgebOXTnoA28bOBDmeRlBh8SQfy1rUE76KmawWJLIdTra/1EYIBIfgiwKxi4zyzD2fVlrtuPv/fwFDf7MzceA+xcB+r0RSyHhWCpnrIHGJsl2W5JZQyHJ9JWrkCqeT952miFjDzfH/neCqqCMV+HwJCFWPaldkxE7zpAu3tJWJ1V5mpXHrLjj2uAYN27vVIJ84BJW2owrUlx40rJORkhLItsePNjotmKrwLAeQBjHM45WlOi+7MZC0izI4qF7ZBZGVh3uDP7fBK0RLqsMBV6O+zXqUVl7HNdoD93SNr7wzWEXizYoWzP/ujLtr0dzV6EhhF5giChcSz1vPd1AgrXycT9G5yTcxvc6AK4hSmFg3+hHqtf9cgOe2yEadsw=
